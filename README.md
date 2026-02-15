@@ -50,7 +50,7 @@ Cookie Trace/
 │   └── mlClassifier.js         # ForestMap: оптимизированная модель принятия решений
 │
 └── cookieChecker.js            # Главная точка входа Service Worker
-
+```
 ---
 
 ## 🛠 Установка
