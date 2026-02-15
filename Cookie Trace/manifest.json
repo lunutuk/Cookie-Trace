@@ -1,0 +1,41 @@
+{
+   "action": {
+      "default_icon": {
+         "16": "icons/16.png",
+         "19": "icons/19.png",
+         "32": "icons/32.png",
+         "48": "icons/48.png"
+      },
+      "default_popup": "interface/popup/cookie-list.html",
+      "default_title": "Cookie Trace"
+   },
+   "author": "liniskff@gmail.com",
+   "background": {
+      "service_worker": "cookieChecker.js",
+      "type": "module"
+   },
+   "description": "Простое и эффективное средство просмотра файлов cookie, которое   поможет вам защитить личные данные прямо в браузере.",
+   "devtools_page": "interface/devtools/devtool.html",
+   "icons": {
+      "128": "icons/128.png",
+      "16": "icons/16.png",
+      "19": "icons/19.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png"
+   },
+   "manifest_version": 3,
+   "minimum_chrome_version": "102",
+   "name": "Cookie Trace",
+   "incognito": "split",
+   "offline_enabled": true,
+   "optional_host_permissions": [ "\u003Call_urls>" ],
+   "options_ui": {
+      "page": "interface/options/options.html",
+      "open_in_tab": true
+   },
+   "permissions": [ "cookies", "tabs", "storage", "sidePanel", "notifications", "alarms" ],
+   "side_panel": {
+      "default_path": "interface/sidepanel/cookie-list.html"
+   },
+   "version": "1"
+}

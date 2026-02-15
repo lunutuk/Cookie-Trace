@@ -1,0 +1,264 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="options.js" type="module" defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../theme/switch.css" />
+  <title>Cookie Trace Options</title>
+</head>
+
+<body>
+  <div class="container">
+    <fieldset>
+      <legend>Опции</legend>
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#eject"></use>
+        </svg>
+        <label for="button-bar-top">Поместить панель кнопок сверху</label>
+        <label class="switch">
+          <input type="checkbox" id="button-bar-top" aria-describedby="button-bar-top-hint" />
+          <span class="slider"></span>
+        </label>
+        <div class="hint" id="button-bar-top-hint">
+          Если эта функция включена, основная панель кнопок будет расположена в верхней части
+интерфейса, а не в нижней.
+        </div>
+      </div>
+      
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#eye"></use>
+        </svg>
+        <label for="advanced-cookie">Расширенные параметры</label>
+        <label class="switch">
+          <input type="checkbox" id="advanced-cookie" aria-describedby="advanced-cookie-hint" />
+          <span class="slider"></span>
+        </label>
+        <div class="hint" id="advanced-cookie-hint">
+          Если этот параметр включен, все значения файла cookie отображаются в интерфейсе.<br />
+          Если этот параметр отключен, в интерфейсе отображаются только имя и значение файла cookie.
+        </div>
+      </div>
+
+      
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#play"></use>
+        </svg>
+        <label for="animations-enabled">Включить анимации</label>
+        <label class="switch">
+          <input type="checkbox" id="animations-enabled" aria-describedby="animations-enabled-hint" />
+          <span class="slider"></span>
+        </label>
+        <div class="hint" id="animations-enabled-hint">
+          Когда включено, в интерфейсе Cookie Trace будут отображаться переходы и другие различные
+анимации. Это только для внешнего вида.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#file-export"></use>
+        </svg>
+        <label for="export-format">Формат экспорта</label>
+        <select id="export-format" aria-describedby="export-format-hint">
+          <option value="ask">Вручную</option>
+        </select>
+        <div class="hint" id="export-format-hint">
+          Выбирает режим работы кнопки экспорта. Если выбрано значение "Вручную", при
+нажатии кнопки экспорта отобразится меню с запросом на выбор формата.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#circle-info"></use>
+        </svg>
+        <label for="extra-info">Показывать дополнительную информацию</label>
+        <select id="extra-info" aria-describedby="v-hint">
+          <option value="nothing">Ничего</option>
+          <option value="value">Значение</option>
+          <option value="domain">Домен</option>
+          <option value="path">Путь</option>
+          <option value="expiration">Истечение</option>
+          <option value="samesite">Похожий сайт</option>
+          <option value="hostonly">Host Only</option>
+          <option value="session">Session</option>
+          <option value="secure">Secure</option>
+          <option value="httponly">Http Only</option>
+        </select>
+        <div class="hint" id="extra-info-hint">
+          Выбирает один дополнительный элемент для отображения рядом с названием файла cookie в
+интерфейсе. Это поможет вам быстро определить, какой файл cookie вы
+ищете.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#brush"></use>
+        </svg>
+        <label for="theme">Тема</label>
+        <select id="theme" aria-describedby="theme-hint">
+          <option value="auto">Автоматически</option>
+        </select>
+        <div class="hint" id="theme-hint">
+          При выборе "Автоматически" , Cookie Trace будет автоматически соответствовать тематике вашего браузера.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#pen"></use>
+        </svg>
+        <label for="changelog-limit">Лимит истории изменений</label>
+        <input type="number" id="changelog-limit" class="short-input" min="50" max="5000" aria-describedby="changelog-limit-hint" />
+        <div class="hint" id="changelog-limit-hint">
+          Укажите, сколько последних изменений cookie хранить (от 50 до 5000).
+        </div>
+      </div>
+      
+      
+      
+    <div class="container"> 
+      <fieldset>
+        <legend>Все Cookies</legend>
+        <div class="notice danger">
+          <svg class="icon">
+            <use href="../sprites/solid.svg#exclamation-triangle"></use>
+          </svg>
+          <strong>Будьте осторожны!</strong> Действия в этом разделе будут применяться ко всем сайтам.
+           <br />
+          Помните о правилах безопасности ваших персональных данных.
+        </div>
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#clock"></use>
+        </svg>
+        <label for="long-lived-cookie-threshold">Подсвечивать "долгоживущие" Cookies</label>
+        <select id="long-lived-cookie-threshold" aria-describedby="long-lived-cookie-threshold-hint">
+          <option value="off">Выключено</option>
+          <option value="1m">Более 1 месяца</option>
+          <option value="6m">Более 6 месяцев</option>
+          <option value="1y">Более 1 года</option>
+        </select>
+        <div class="hint" id="long-lived-cookie-threshold-hint">
+          Выделяет Cookies, срок действия которых превышает выбранный период (считая от текущего момента).
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#user-secret"></use>
+        </svg>
+        <label for="pii-scan-mode">Сканирование на PII</label>
+        <select id="pii-scan-mode" aria-describedby="pii-scan-mode-hint">
+          <option value="off">Выключено</option>
+          <option value="simple">Да (только открытый текст)</option>
+          <option value="decode_base64">Да (включая декодирование Base64)</option>
+        </select>
+        <div class="hint" id="pii-scan-mode-hint">
+          <strong>Экспериментально!</strong> Позволяет обнаруживать Персонально Идентифицируемую Информацию (PII) в значениях cookies.
+          Сканирование происходит локально. Возможны ложные срабатывания.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#bell"></use>
+        </svg>
+        <label for="pii-browser-notifications-enabled">Системные уведомления о PII</label>
+        <label class="switch">
+          <input type="checkbox" id="pii-browser-notifications-enabled" aria-describedby="pii-browser-notifications-enabled-hint" />
+          <span class="slider"></span>
+        </label>
+        <div class="hint" id="pii-browser-notifications-enabled-hint">
+          Если включено, Cookie Trace будет показывать системные уведомления браузера при обнаружении PII.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#circle-info"></use>
+        </svg>
+        <label for="ml-enabled">ИИ-анализ cookies</label>
+        <label class="switch">
+          <input type="checkbox" id="ml-enabled" aria-describedby="ml-enabled-hint" />
+          <span class="slider"></span>
+        </label>
+        <div class="hint" id="ml-enabled-hint">
+          <strong>Экспериментально!</strong> Локальная ML-модель помечает трекерные/идентификаторные cookies по косвенным признакам.
+        </div>
+      </div>
+
+      <div class="input-container">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#user-shield"></use>
+        </svg>
+        <label for="profiling-protection-enabled">Защита от профилирования</label>
+        <label class="switch">
+          <input type="checkbox" id="profiling-protection-enabled" aria-describedby="profiling-protection-enabled-hint" />
+          <span class="slider"></span>
+        </label>
+        <div class="hint" id="profiling-protection-enabled-hint">
+          <strong>Экспериментально!</strong> Периодически изменяет значения трекерных/идентификаторных cookies, чтобы снизить ценность профилирования.
+        </div>
+      </div>
+
+      <div class="input-container sub-option" id="profiling-protection-threshold-suboption">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#sliders"></use>
+        </svg>
+        <label for="profiling-protection-threshold">Порог профилирования (0–100%)</label>
+        <input
+          type="number"
+          id="profiling-protection-threshold"
+          min="0"
+          max="100"
+          step="1"
+          aria-describedby="profiling-protection-threshold-hint"
+        />
+        <div class="hint" id="profiling-protection-threshold-hint">
+          Чем выше порог, тем реже будут затрагиваться cookies (меньше ложных срабатываний).
+        </div>
+      </div>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Управление всеми Cookies</legend>
+        <div class="notice danger">
+          <svg class="icon">
+            <use href="../sprites/solid.svg#exclamation-triangle"></use>
+          </svg>
+          <strong>Внимание!</strong> Действия в этом разделе затрагивают cookies на <strong>всех</strong> сайтах. Это может привести к выходу из учетных записей. Используйте с осторожностью.
+        </div>
+        <div class="input-container">
+          Экспорт всех Cookies
+          <div class="button-group">
+            <button id="export-all-json">Как JSON</button>
+            <button id="export-all-netscape">Как Netscape</button>
+          </div>
+          <div class="hint">
+            Header string недоступен для экспорта из браузера, поскольку он
+не содержит информации о том, с какого сайта он взят.
+          </div>
+        </div>
+        <div class="input-container">
+          Удалить все Cookies
+          <button class="button" id="delete-all">Удалить все</button>
+          <div class="hint">
+            Это приведет к удалению всех файлов cookie на всех сайтах в этом браузере.
+ Это действие необратимо. Будьте очень осторожны.
+          </div>
+        </div>
+      </fieldset>
+  </div>
+</body>
+</html>

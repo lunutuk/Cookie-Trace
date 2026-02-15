@@ -1,0 +1,898 @@
+<!doctype html>
+
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Cookie Trace</title>
+  </head>
+
+  <body class="notransition">
+    <div id="side-menu" class="side-menu">
+      <div class="side-menu-header">
+        <svg class="icon header-icon" viewBox="0 0 640 640"><path fill="#ffd700" d="M321.5 91.6C320.7 86.2 316.6 81.8 311.2 81C289.1 77.9 266.6 81.9 246.8 92.4L172.8 131.9C153.1 142.4 137.2 158.9 127.4 179L90.7 254.6C80.9 274.7 77.7 297.5 81.6 319.5L96.1 402.3C100 424.4 110.7 444.6 126.8 460.2L187.1 518.6C203.2 534.2 223.7 544.2 245.8 547.3L328.8 559C350.9 562.1 373.4 558.1 393.2 547.6L467.2 508.1C486.9 497.6 502.8 481.1 512.6 460.9L549.3 385.4C559.1 365.3 562.3 342.5 558.4 320.5C557.5 315.2 553.1 311.2 547.8 310.4C496.3 302.2 455 263.3 443.3 213C441.5 205.4 435.3 199.6 427.6 198.4C373 189.7 329.9 146.4 321.4 91.6zM272 208C289.7 208 304 222.3 304 240C304 257.7 289.7 272 272 272C254.3 272 240 257.7 240 240C240 222.3 254.3 208 272 208zM208 400C208 382.3 222.3 368 240 368C257.7 368 272 382.3 272 400C272 417.7 257.7 432 240 432C222.3 432 208 417.7 208 400zM432 336C449.7 336 464 350.3 464 368C464 385.7 449.7 400 432 400C414.3 400 400 385.7 400 368C400 350.3 414.3 336 432 336z"/></svg>
+        <span class="header-title">Cookie Trace</span>
+      </div>
+      <div class="menu-section">
+        <a href="#" id="menu-item-changelog" class="menu-item">
+          <svg class="icon"><use href="../sprites/solid.svg#pen"></use></svg>
+          <span>История изменений</span>
+        </a>
+        <a href="#" id="menu-item-all-cookies" class="menu-item">
+          <svg class="icon"><use href="../sprites/solid.svg#globe"></use></svg>
+          <span>Все cookie</span>
+        </a>
+      </div>
+      <div class="menu-section menu-section-secondary">
+        <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/02-Testing_for_Cookies_Attributes" id="menu-item-owasp" class="menu-item" target="_blank" rel="noopener noreferrer">
+          <svg class="icon"><use href="../sprites/solid.svg#book"></use></svg>
+          <span>Документация OWASP</span>
+        </a>
+        <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSHwfbFvscHlNrrhzRHHbddSKKdbBtPPDQJqFbcLFVncjMqdRllZtrLnfnNzGQSCBndwWPdH" id="menu-item-feedback" class="menu-item" target="_blank" rel="noopener noreferrer">
+          <svg class="icon"><use href="../sprites/solid.svg#support"></use></svg>
+          <span>Обратная связь</span>
+        </a>
+        <a href="https://github.com/lunutuk/cookie-checker" id="menu-item-repo" class="menu-item" target="_blank" rel="noopener noreferrer">
+          <svg class="icon"><use href="../sprites/solid.svg#code"></use></svg>
+          <span>Репозиторий проекта</span>
+        </a>
+      </div>
+    </div>
+    <div id="pageTitle">
+      <button id="hamburger-menu-button">
+        <svg class="icon">
+          <use href="../sprites/solid.svg#set"></use>
+        </svg>
+      </button>
+      <div class="title-container">
+        <h1 class="container">
+          Cookie Trace
+        </h1>
+        <span id="version"></span>
+      </div>
+      <div id="main-menu">
+        <button id="main-menu-button">
+          <svg class="icon">
+            <use href="../sprites/solid.svg#ellipsisv"></use>
+          </svg>
+        </button>
+        <div id="main-menu-content">
+          <label
+            class="menu-item switch"
+            for="advanced-toggle-all"
+            id="advanced-toggle-all-label"
+          >
+            Дополнительные настройки
+            <label class="switch">
+              <input
+                type="checkbox"
+                id="advanced-toggle-all"
+                aria-describedby="advanced-toggle-all-label"
+              />
+              <span class="slider"></span>
+            </label>
+          </label>
+          <button class="menu-item" id="menu-all-options">
+            Посмотреть все опции
+            <svg class="icon">
+              <use href="../sprites/solid.svg#external-link-alt"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="ad-container"></div>
+
+    <div id="cookie-container"></div>
+
+    <div class="panel button-bar active" id="button-bar-default">
+      <div class="panel-section panel-section-footer">
+        
+        <button
+          class="panel-section-footer-button"
+          id="create-cookie"
+          type="button"
+        >
+          <div>
+            <svg class="icon"><use href="../sprites/solid.svg#plus"></use></svg>
+            <div class="tooltip" role="tooltip">Добавить</div>
+          </div>
+        </button>
+        <div class="panel-section-footer-separator"></div>
+        
+        <button
+          class="panel-section-footer-button danger"
+          id="delete-all-cookies"
+          type="button"
+        >
+          <div>
+            <svg class="icon">
+              <use href="../sprites/solid.svg#trash"></use>
+            </svg>
+            <div class="tooltip" role="tooltip">Удалить всё</div>
+          </div>
+        </button>
+        <div class="panel-section-footer-separator"></div>
+        
+        <button
+          class="panel-section-footer-button"
+          id="import-cookies"
+          type="button"
+        >
+          <div>
+            <svg class="icon">
+              <use href="../sprites/solid.svg#file-import"></use>
+            </svg>
+            <div class="tooltip" role="tooltip">Импортировать</div>
+          </div>
+        </button>
+        <div class="panel-section-footer-separator"></div>
+
+        <button
+          class="panel-section-footer-button"
+          id="export-cookies"
+          type="button"
+        >
+          <div>
+            <svg class="icon">
+              <use href="../sprites/solid.svg#file-export"></use>
+            </svg>
+            <div class="tooltip" role="tooltip">Экспортировать</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel button-bar" id="button-bar-add">
+      <div class="panel-section panel-section-footer">
+        <button
+          class="panel-section-footer-button"
+          id="return-list-add"
+          type="button"
+        >
+          <div>
+            <svg class="icon">
+              <use href="../sprites/solid.svg#arrow-left"></use>
+            </svg>
+            <div class="tooltip" role="tooltip">Отменить</div>
+          </div>
+        </button>
+        <div class="panel-section-footer-separator"></div>
+
+        <button
+          class="panel-section-footer-button primary"
+          id="save-create-cookie"
+          type="button"
+        >
+          <div>
+            <svg class="icon"><use href="../sprites/solid.svg#save"></use></svg>
+            <div class="tooltip" role="tooltip">Добавить</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel button-bar" id="button-bar-import">
+      <div class="panel-section panel-section-footer">
+        <button
+          class="panel-section-footer-button"
+          id="return-list-import"
+          type="button"
+        >
+          <div>
+            <svg class="icon">
+              <use href="../sprites/solid.svg#arrow-left"></use>
+            </svg>
+            <div class="tooltip" role="tooltip">Отменить</div>
+          </div>
+        </button>
+        <div class="panel-section-footer-separator"></div>
+
+        <button
+          class="panel-section-footer-button primary"
+          id="save-import-cookie"
+          type="button"
+        >
+          <div>
+            <svg class="icon">
+              <use href="../sprites/solid.svg#file-import"></use>
+            </svg>
+            <div class="tooltip" role="tooltip">Импортировать</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+        <div class="panel button-bar" id="button-bar-changelog">
+
+          <div class="panel-section panel-section-footer">
+
+            <button
+
+              class="panel-section-footer-button"
+
+              id="return-list-changelog"
+
+              type="button"
+
+            >
+
+              <div>
+
+                <svg class="icon">
+
+                  <use href="../sprites/solid.svg#arrow-left"></use>
+
+                </svg>
+
+                <div class="tooltip" role="tooltip">Назад</div>
+
+              </div>
+
+            </button>
+
+            <div class="panel-section-footer-separator"></div>
+
+            <button
+
+              class="panel-section-footer-button danger"
+
+              id="clear-changelog-button"
+
+              type="button"
+
+            >
+
+              <div>
+
+                <svg class="icon">
+
+                  <use href="../sprites/solid.svg#trash"></use>
+
+                </svg>
+
+                <div class="tooltip" role="tooltip">Очистить историю</div>
+
+              </div>
+
+            </button>
+
+          </div>
+
+        </div>
+
+    
+
+        <div class="panel button-bar" id="button-bar-all-cookies">
+
+        <div class="panel-section-footer">
+            <button class="panel-section-footer-button" id="return-list-all-cookies" type="button">
+                <div>
+                    <svg class="icon">
+                        <use href="../sprites/solid.svg#arrow-left"></use>
+                    </svg>
+                    <div class="tooltip" role="tooltip">Назад</div>
+                </div>
+            </button>
+            <div class="panel-section-footer-separator"></div>
+            <button class="panel-section-footer-button danger" id="delete-all-cookies-all" type="button">
+                <div>
+                    <svg class="icon">
+                        <use href="../sprites/solid.svg#trash"></use>
+                    </svg>
+                    <div class="tooltip" role="tooltip">Удалить все</div>
+                </div>
+            </button>
+        </div>
+
+        </div>
+
+    
+
+        <div id="notification-container">
+
+          <div id="notification">
+
+            <span></span>
+
+            <button
+
+              id="notification-dismiss"
+
+              aria-label="Dismiss Notification"
+
+              type="button"
+
+            >
+
+              <svg class="icon"><use href="../sprites/solid.svg#times"></use></svg>
+
+            </button>
+
+          </div>
+
+        </div>
+
+    
+
+        <script src="../lib/isPopup.js"></script>
+
+        <script type="module" src="cookie-list.js"></script>
+
+    
+
+        <template id="tmp-cookie">
+
+          <li data-name="" class="cookie">
+
+            <div
+
+              class="header container"
+
+              tabindex="0"
+
+              role="button"
+
+              aria-expanded="false"
+
+            >
+
+              <svg class="icon arrow">
+
+                <use href="../sprites/solid.svg#angle-down"></use>
+
+              </svg>
+
+              <span class="header-name"></span>
+
+              <span class="header-extra-info"></span>
+
+              <div class="btns">
+
+                <button
+
+                  class="delete"
+
+                  data-tooltip-left="Delete"
+
+                  aria-label="Delete"
+
+                  tabindex="-1"
+
+                  type="button"
+
+                >
+
+                  <svg class="icon">
+
+                    <use href="../sprites/solid.svg#trash"></use>
+
+                  </svg>
+
+                </button>
+
+              </div>
+
+            </div>
+
+            <div class="expando" aria-hidden="true" role="region">
+
+              <div class="wrapper">
+
+                <div class="action-btns">
+
+                  <button
+
+                    class="delete"
+
+                    data-tooltip="Delete"
+
+                    aria-label="Delete"
+
+                    type="button"
+
+                  >
+
+                    <svg class="icon">
+
+                      <use href="../sprites/solid.svg#trash"></use>
+
+                    </svg>
+
+                  </button>
+
+                  <button
+
+                    class="save"
+
+                    data-tooltip="Save"
+
+                    aria-label="Save"
+
+                    type="submit"
+
+                  >
+
+                    <svg class="icon">
+
+                      <use href="../sprites/solid.svg#save"></use>
+
+                    </svg>
+
+                  </button>
+
+                </div>
+
+                <form data-id="" class="form container">
+
+                  <div>
+
+                    <label class="label-name">Название</label>
+
+                    <input name="name" type="text" class="input-name" />
+
+                  </div>
+
+                  <div>
+
+                    <label class="label-value">Значение</label>
+
+                    <textarea name="value" class="input-value"></textarea>
+
+                  </div>
+
+                  <button class="advanced-toggle" type="button">
+
+                    Дополнительные настройки
+
+                  </button>
+
+                  <div class="advanced-form">
+
+                    <div>
+
+                      <label class="label-domain">Домен<span class="tooltip-icon" data-tooltip-key="domain-field"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span></label>
+
+                      <input name="domain" type="text" class="input-domain" />
+
+                    </div>
+
+                    <div>
+
+                      <label class="label-path">Path<span class="tooltip-icon" data-tooltip-key="path-field"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span></label>
+
+                      <input name="path" type="text" class="input-path" />
+
+                    </div>
+
+                    <div>
+
+                      <label class="label-expiration">Истечение<span class="tooltip-icon" data-tooltip-key="expiration-field"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span></label>
+
+                      <input
+
+                        name="expiration"
+
+                        type="text"
+
+                        class="input-expiration"
+
+                      />
+
+                    </div>
+
+                    <div>
+
+                      <label class="label-sameSite">Same Site<span class="tooltip-icon" data-tooltip-key="same-site-flag"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span></label>
+
+                      <select name="sameSite" class="input-sameSite">
+
+                        <option value="unspecified" disabled hidden>Unspecified</option>
+
+                        <option value="no_restriction">None</option>
+
+                        <option value="lax">Lax</option>
+
+                        <option value="strict">Strict</option>
+
+                      </select>
+
+                    </div>
+
+                    <div class="checkbox-list">
+
+                      <label class="label-hostOnly">
+
+                        <input
+
+                          type="checkbox"
+
+                          name="hostOnly"
+
+                          class="input-hostOnly"
+
+                        />
+
+                        Host Only
+
+                        <span class="tooltip-icon" data-tooltip-key="host-only-flag"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span>
+
+                      </label>
+
+                      <label class="label-session">
+
+                        <input
+
+                          type="checkbox"
+
+                          name="session"
+
+                          class="input-session"
+
+                        />
+
+                        Session
+
+                        <span class="tooltip-icon" data-tooltip-key="session-flag"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span>
+
+                      </label>
+
+                      <label class="label-secure">
+
+                        <input type="checkbox" name="secure" class="input-secure" />
+
+                        Secure
+
+                        <span class="tooltip-icon" data-tooltip-key="secure-flag"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span>
+
+                      </label>
+
+                      <label class="label-httpOnly">
+
+                        <input
+
+                          type="checkbox"
+
+                          name="httpOnly"
+
+                          class="input-httpOnly"
+
+                        />
+
+                        Http Only
+
+                        <span class="tooltip-icon" data-tooltip-key="http-only-flag"><svg class="icon"><use href="../sprites/solid.svg#circle-info"></use></svg></span>
+
+                      </label>
+
+                    </div>
+
+                  </div>
+
+                </form>
+
+              </div>
+
+            </div>
+
+          </li>
+
+        </template>
+
+    
+
+        <template id="tmp-import">
+
+          <form class="form container import">
+
+            <div>
+
+              <label for="content-import">
+
+                Поддерживаемые форматы: JSON, Header string, Netscape.
+
+              </label>
+
+              <textarea
+
+                class="json"
+
+                name="content"
+
+                id="content-import"
+
+                placeholder='JSON:\t&#10;[{"name":"Cookie","value":"text",[...]}] &#10;&#10;Header String:\t&#10;Cookie=text\t&#10;&#10;Netscape:\t&#10;# Netscape HTTP Cookie File\t&#10;# [...]\t&#10;'
+
+              ></textarea>
+
+            </div>
+
+          </form>
+
+        </template>
+
+    
+
+        <template id="tmp-export">
+
+          <form class="form container export sbro">
+
+            <div>
+
+              <label for="content-export">Экспортер только JSON формата</label>
+
+              <textarea
+
+                class="json"
+
+                name="content"
+
+                id="content-export"
+
+                placeholder="Export your  here"
+
+              >
+
+              </textarea>
+
+            </div>
+
+          </form>
+
+        </template>
+
+    
+
+        <template id="tmp-create">
+
+          <form class="form container create">
+
+            <div>
+
+              <label for="name-create">Название</label>
+
+              <input name="name" type="text" value="" id="name-create" />
+
+            </div>
+
+            <div>
+
+              <label for="value-create">Значение</label>
+
+              <textarea name="value" id="value-create"></textarea>
+
+            </div>
+
+          </form>
+
+        </template>
+
+    
+
+        <template id="tmp-empty">
+
+          <p class="container" id="no-cookies">
+
+            На этой странице нет никаких файлов cookie.
+
+          </p>
+
+        </template>
+
+    
+
+        <template id="tmp-no-permission">
+
+          <div class="container" id="no-permission">
+
+            У вас нет разрешения, необходимого для чтения файлов cookie на этой
+
+    странице.
+
+            <div>
+
+              Дать разрешение на...
+
+              <div class="button-container">
+
+                <button
+
+                  id="request-permission"
+
+                  title="Request permission to read cookies for this site."
+
+                >
+
+                  Этот сайт
+
+                </button>
+
+                <button
+
+                  id="request-permission-all"
+
+                  title="Request permission to read cookies for all sites."
+
+                >
+
+                  Все сайты
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </template>
+
+    
+
+            <template id="tmp-permission-impossible">
+
+    
+
+              <div class="container" id="permission-impossible">
+
+    
+
+                Cookie Trace не может отображать файлы cookie для этой страницы.
+
+    
+
+              </div>
+
+    
+
+            </template>
+
+    
+
+        
+
+    
+
+            <template id="tmp-no-permission-all-cookies">
+
+    
+
+                <div class="container" id="no-permission">
+
+    
+
+                    Для доступа ко всем cookie требуется ваше разрешение.
+
+    
+
+                    <div>
+
+    
+
+                        <div class="button-container">
+
+    
+
+                            <button id="request-permission-all-cookies" title="Request permission to read cookies for all sites.">
+
+    
+
+                                Дать разрешение
+
+    
+
+                            </button>
+
+    
+
+                        </div>
+
+    
+
+                    </div>
+
+    
+
+                </div>
+
+    
+
+            </template>
+
+    
+
+        
+
+    
+
+            <template id="tmp-search-bar">
+
+          <li>
+
+            <div id="searchContainer">
+
+              <svg class="icon search">
+
+                <use href="../sprites/solid.svg#search"></use>
+
+              </svg>
+
+              <input id="searchField" type="text" placeholder="Search" />
+
+            </div>
+
+          </li>
+
+        </template>
+
+    
+
+        <template id="tmp-export-options">
+
+          <div id="export-menu">
+
+            <h3>Экспортировать как:</h3>
+
+            <button id="export-json" type="button">JSON</button>
+
+            <button id="export-headerstring" type="button">Header String</button>
+
+            <button id="export-netscape" type="button">Netscape</button>
+
+                </div>
+
+              </template>
+
+          
+
+              <template id="tmp-domain-search-bar">
+
+                  <div id="searchContainer">
+
+                    <svg class="icon search">
+
+                      <use href="../sprites/solid.svg#search"></use>
+
+                    </svg>
+
+                    <input id="domainSearchField" type="text" placeholder="Поиск по сайтам" />
+
+                  </div>
+
+              </template>
+
+          
+
+              <template id="tmp-changelog">
+
+          <div class="container" id="changelog-view">
+            <div class="changelog-content"></div>
+          </div>
+
+        </template>
+
+    
+
+        <template id="tmp-all-cookies">
+
+            <div class="container" id="all-cookies-view">
+
+                <h2 style="text-align: center; margin-top: 20px;">Все cookie</h2>
+
+                <p style="text-align: center;">Здесь будут отображаться все cookie.</p>
+
+            </div>
+
+        </template>
+
+    
+
+        <div id="overlay"></div>
+
+      </body>
+
+    </html>
+
+    
