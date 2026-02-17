@@ -241,16 +241,29 @@ export class OptionsHandler extends EventEmitter {
   }
 
   notifyBackgroundOfChanges() {
-    if (this.backgroundPageConnection) {
+    console.log('notifyBackgroundOfChanges called, connection:', !!this.backgroundPageConnection);
+    if (this.backgroundPageConnection && this.backgroundPageConnection.postMessage) {
         try {
-            this.sendMessage('optionsChanged', { from: this.guid });
+            const message = {
+                type: 'optionsChanged',
+                params: { from: this.guid }
+            };
+            console.log('Sending message via postMessage:', message);
+            this.backgroundPageConnection.postMessage(message);
         } catch(e) {
             console.warn("Failed to notify background page of changes:", e);
         }
+    } else {
+        console.warn("Background connection not available for options change notification");
     }
   }
 
   sendMessage(type, params, callback, errorCallback) {
+    if (type === 'optionsChanged') {
+        console.warn('sendMessage blocked for optionsChanged - use postMessage instead');
+        return;
+    }
+    
     const runtimeApi = this.browserDetector.getApi()?.runtime;
     if (!runtimeApi) {
         console.error("Runtime API is not available.");
