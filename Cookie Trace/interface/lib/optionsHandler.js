@@ -235,6 +235,7 @@ export class OptionsHandler extends EventEmitter {
       console.warn('Attempted to save options before they are loaded or initialized.');
       return;
     }
+    console.log('Saving options:', this.options);
     await this.storageHandler.setLocal(optionsKey, this.options);
     this.notifyBackgroundOfChanges();
   }
@@ -286,6 +287,16 @@ export class OptionsHandler extends EventEmitter {
         const oldOptions = this.options ? { ...this.options } : null;
         await this.loadOptions();
         console.log("Options updated from another source. Old:", oldOptions, "New:", this.options);
+        this.emit('optionsChanged', oldOptions);
+        return;
+      }
+      case 'optionsChanged': {
+        if (request.data && request.data.from === this.guid) {
+          return;
+        }
+        const oldOptions = this.options ? { ...this.options } : null;
+        await this.loadOptions();
+        console.log("Options changed from another source. Old:", oldOptions, "New:", this.options);
         this.emit('optionsChanged', oldOptions);
         return;
       }
