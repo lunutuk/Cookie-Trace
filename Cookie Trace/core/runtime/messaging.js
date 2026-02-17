@@ -14,6 +14,21 @@ export function setupMessaging(ctx) {
         case 'init_optionsHandler':
           connections[port.name] = port;
           return;
+        case 'optionsChanged':
+          
+          ctx.resetOptionsCache();
+          sendMessageToAllTabs('optionsChanged', request.params);
+          
+          
+          Object.keys(connections).forEach(connectionId => {
+            if (connectionId.length > 10 && connectionId !== port.name) {
+              connections[connectionId].postMessage({
+                type: 'options_updated',
+                data: { from: request.params.from }
+              });
+            }
+          });
+          return;
       }
     };
 
@@ -106,21 +121,6 @@ export function setupMessaging(ctx) {
       }
       case 'permissionsRequest': {
         ctx.permissionHandler.requestPermission(request.params).then(sendResponse);
-        return true;
-      }
-      case 'optionsChanged': {
-        ctx.resetOptionsCache();
-        sendMessageToAllTabs('optionsChanged', { from: request.params.from });
-        
-        // Also notify all option handlers
-        Object.keys(connections).forEach(connectionId => {
-          if (connectionId.length > 10) { // Likely a GUID from optionsHandler
-            connections[connectionId].postMessage({
-              type: 'options_updated',
-              data: { from: request.params.from }
-            });
-          }
-        });
         return true;
       }
       case 'setNextActionCategory': {
