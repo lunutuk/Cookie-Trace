@@ -91,29 +91,57 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function setInputEvents() {
-    advancedCookieInput.addEventListener('change', () => optionHandler.setCookieAdvanced(advancedCookieInput.checked));
+    advancedCookieInput.addEventListener('change', () => {
+      console.log('Advanced cookie changed:', advancedCookieInput.checked);
+      optionHandler.setCookieAdvanced(advancedCookieInput.checked);
+    });
     animationsEnabledInput.addEventListener('change', () => {
+      console.log('Animations enabled changed:', animationsEnabledInput.checked);
       optionHandler.setAnimationsEnabled(animationsEnabledInput.checked);
       handleAnimationsEnabled();
     });
-    exportFormatInput.addEventListener('change', () => optionHandler.setExportFormat(exportFormatInput.value));
-    extraInfoInput.addEventListener('change', () => optionHandler.setExtraInfo(extraInfoInput.value));
+    exportFormatInput.addEventListener('change', () => {
+      console.log('Export format changed:', exportFormatInput.value);
+      optionHandler.setExportFormat(exportFormatInput.value);
+    });
+    extraInfoInput.addEventListener('change', () => {
+      console.log('Extra info changed:', extraInfoInput.value);
+      optionHandler.setExtraInfo(extraInfoInput.value);
+    });
     themeInput.addEventListener('change', () => {
+      console.log('Theme changed:', themeInput.value);
       optionHandler.setTheme(themeInput.value);
     });
-    buttonBarTopInput.addEventListener('change', () => optionHandler.setButtonBarTop(buttonBarTopInput.checked));
-    longLivedCookieThresholdInput.addEventListener('change', () => optionHandler.setLongLivedCookieThreshold(longLivedCookieThresholdInput.value));
-    piiScanModeInput.addEventListener('change', () => optionHandler.setPiiScanMode(piiScanModeInput.value));
+    buttonBarTopInput.addEventListener('change', () => {
+      console.log('Button bar top changed:', buttonBarTopInput.checked);
+      optionHandler.setButtonBarTop(buttonBarTopInput.checked);
+    });
+    longLivedCookieThresholdInput.addEventListener('change', () => {
+      console.log('Long lived cookie threshold changed:', longLivedCookieThresholdInput.value);
+      optionHandler.setLongLivedCookieThreshold(longLivedCookieThresholdInput.value);
+    });
+    piiScanModeInput.addEventListener('change', () => {
+      console.log('PII scan mode changed:', piiScanModeInput.value);
+      optionHandler.setPiiScanMode(piiScanModeInput.value);
+    });
     if (piiBrowserNotificationsEnabledInput) {
-      piiBrowserNotificationsEnabledInput.addEventListener('change', () => optionHandler.setPiiBrowserNotificationsEnabled(piiBrowserNotificationsEnabledInput.checked));
+      piiBrowserNotificationsEnabledInput.addEventListener('change', () => {
+        console.log('PII browser notifications changed:', piiBrowserNotificationsEnabledInput.checked);
+        optionHandler.setPiiBrowserNotificationsEnabled(piiBrowserNotificationsEnabledInput.checked);
+      });
     }
-    mlEnabledInput.addEventListener('change', () => optionHandler.setMlEnabled(mlEnabledInput.checked));
+    mlEnabledInput.addEventListener('change', () => {
+      console.log('ML enabled changed:', mlEnabledInput.checked);
+      optionHandler.setMlEnabled(mlEnabledInput.checked);
+    });
     profilingProtectionEnabledInput.addEventListener('change', () => {
+      console.log('Profiling protection enabled changed:', profilingProtectionEnabledInput.checked);
       optionHandler.setProfilingProtectionEnabled(profilingProtectionEnabledInput.checked);
       updateProfilingProtectionUi();
     });
     profilingProtectionThresholdInput.addEventListener('change', () => {
       const value = parseInt(profilingProtectionThresholdInput.value, 10);
+      console.log('Profiling protection threshold changed:', value);
       optionHandler.setProfilingProtectionThresholdPercent(value);
       profilingProtectionThresholdInput.value = optionHandler.getProfilingProtectionThresholdPercent();
     });
@@ -126,6 +154,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         changelogLimitInput.value = optionHandler.options.changelogLimit;
         return;
       }
+      console.log('Changelog limit changed:', value);
       optionHandler.options.changelogLimit = value;
       optionHandler.saveOptions();
     });
@@ -229,7 +258,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             resolve();
         }, false);
-    }));
+      }));
+    }
 
     await Promise.allSettled(promises);
 
