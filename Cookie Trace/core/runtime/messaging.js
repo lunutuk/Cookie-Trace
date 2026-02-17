@@ -111,6 +111,16 @@ export function setupMessaging(ctx) {
       case 'optionsChanged': {
         ctx.resetOptionsCache();
         sendMessageToAllTabs('optionsChanged', { from: request.params.from });
+        
+        // Also notify all option handlers
+        Object.keys(connections).forEach(connectionId => {
+          if (connectionId.length > 10) { // Likely a GUID from optionsHandler
+            connections[connectionId].postMessage({
+              type: 'options_updated',
+              data: { from: request.params.from }
+            });
+          }
+        });
         return true;
       }
       case 'setNextActionCategory': {
